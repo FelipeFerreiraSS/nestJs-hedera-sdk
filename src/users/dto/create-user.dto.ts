@@ -1,6 +1,6 @@
-import { IsNotEmpty, Length, MaxLength, MinLength } from "class-validator";
+import { IsNotEmpty, MaxLength, MinLength } from "class-validator";
 
-export class CreateUserBody {
+export class CreateUserDto {
   @IsNotEmpty({
     message: "Nome é obrigatório!"
   })

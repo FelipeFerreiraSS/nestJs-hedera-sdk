@@ -12,7 +12,9 @@ datasource db {
 }
 
 model User {
-  id      String @id
-  name    String
-  account String @unique
+  id        Int      @id @default(autoincrement())
+  name      String
+  account   String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

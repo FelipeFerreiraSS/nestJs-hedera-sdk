@@ -1,0 +1,18 @@
+meta {
+  name: Post User
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BaseURL}}/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Felipe ",
+    "account": "0.0.0000001"
+  }
+}
