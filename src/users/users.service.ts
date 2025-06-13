@@ -26,19 +26,45 @@ export class UsersService {
     });
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    const allUsers = await this.prisma.user.findMany()
+
+    return allUsers;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    console.log(id);
+    
+    const getUserId = await this.prisma.user.findUnique({
+      where: {
+        id
+      }
+    })
+
+    return getUserId;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const updateUser = await this.prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        name: updateUserDto.name,
+        account: updateUserDto.account
+      }
+    })
+    return updateUser;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    await this.prisma.user.delete({
+      where: {
+        id
+      }
+    })
+    return {
+      "message": `Usuario ID: ${id} deletado com sucesso!` 
+    };
   }
 }

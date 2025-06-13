@@ -1,18 +1,18 @@
 meta {
-  name: Post User
+  name: Update User
   type: http
-  seq: 2
+  seq: 4
 }
 
-post {
-  url: {{BaseURL}}/users
+patch {
+  url: {{BaseURL}}/users/1
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "name": "Felipe ",
+    "name": "Felipe",
     "account": "0.0.0000001"
   }
 }
