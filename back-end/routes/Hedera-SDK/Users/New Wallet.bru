@@ -1,0 +1,17 @@
+meta {
+  name: New Wallet
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{BaseURL}}/users/new-wallet
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "asjahsjdhas"
+  }
+}
