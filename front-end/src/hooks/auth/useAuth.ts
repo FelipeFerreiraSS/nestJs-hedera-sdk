@@ -41,7 +41,12 @@ const useAuth = () => {
         setNewUser(true)
       } else if (response.data.newUser === false) {
         toast.success("Login bem-sucedido!")
-        services.localSotageServices.saveToken(data.accountId, data.privateKey)
+        services.localSotageServices.saveToken(
+          data.accountId, 
+          data.privateKey, 
+          response.data.userId, 
+          response.data.name
+        )
         router.push("/dashboard")
       } 
       
@@ -68,7 +73,12 @@ const useAuth = () => {
 
       if (response.status === 201) {
         toast.success("Nova conta criada com sucesso!")
-        services.localSotageServices.saveToken(accountId, privateKey)
+        services.localSotageServices.saveToken(
+          accountId, 
+          privateKey, 
+          response.data.id, 
+          response.data.name
+        )
         router.push("/dashboard")
       }
 
@@ -94,7 +104,12 @@ const useAuth = () => {
 
       if (response.status === 201) {
         toast.success("Nova carteira criada com sucesso!")
-        services.localSotageServices.saveToken(response.data.account, response.data.privateKey)
+        services.localSotageServices.saveToken(
+          response.data.account, 
+          response.data.privateKey, 
+          response.data.userId, 
+          response.data.name
+        )
         router.push("/dashboard")
       }
 
