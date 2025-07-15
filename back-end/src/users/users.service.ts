@@ -59,6 +59,7 @@ export class UsersService {
       account: newWallet.account,
       name: newWallet.name,
       privateKey: newAccountPrivateKey.toString(),
+      userId: newWallet.id
     }
 
     return response
@@ -77,6 +78,12 @@ export class UsersService {
         id
       }
     })
+    
+    if (!getUserId) {
+      return {
+        "message": "userId não encontrado no sistema" 
+      }
+    }
 
     return getUserId;
   }

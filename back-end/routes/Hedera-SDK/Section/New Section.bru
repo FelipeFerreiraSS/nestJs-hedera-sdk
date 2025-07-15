@@ -1,0 +1,18 @@
+meta {
+  name: New Section
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BaseURL}}/section
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Section 2",
+    "userId": 5
+  }
+}

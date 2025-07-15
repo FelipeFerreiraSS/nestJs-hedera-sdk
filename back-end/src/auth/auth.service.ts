@@ -18,17 +18,19 @@ export class AuthService {
       const accountTokenBalanceQueryResponse = await accountBalanceQuery.execute(client);
       accountTokenBalanceQueryResponse.hbars;
 
-      const getUserId = await this.prisma.user.findUnique({
+      const getUserAccountId = await this.prisma.user.findUnique({
         where: {
           account: accountId 
         }
       })
 
-      const newUser = getUserId ? false : true
+      const newUser = getUserAccountId ? false : true
       
       return {
         "validAccount": true,
-        "newUser": newUser
+        "newUser": newUser,
+        "userId": getUserAccountId?.id ?? "",
+        "name": getUserAccountId?.name
       };
       
     } catch (error) {
