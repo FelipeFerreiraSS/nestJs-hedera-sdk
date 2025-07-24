@@ -32,7 +32,8 @@ export default function Dashboard() {
     register,
     handleSubmit,
     errors,
-    logout
+    logout,
+    placeBet
   } = useDashboard()
 
   return (
@@ -44,6 +45,9 @@ export default function Dashboard() {
             <div className="w-[100%] flex justify-between">
               <div>
                 User: {name} Conta: {accountId} Chave: {privateKey.length > 10 ? privateKey.slice(0, 10) + "..." : privateKey}
+                <Button onClick={() => placeBet()} className="cursor-pointer">
+                  Teste  
+                </Button>
               </div>
               <Button onClick={() => logout()} className="cursor-pointer">
                 Sair <LogOut />  

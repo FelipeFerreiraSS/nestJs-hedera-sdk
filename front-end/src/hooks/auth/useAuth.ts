@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation"
 import services from "@/services";
 import { toast } from "sonner"
+
+import { LedgerId } from "@hashgraph/sdk";
+import { HashConnect } from "hashconnect";
 
 type FormValues = {
   accountId: string
@@ -14,9 +17,22 @@ type FormValuesNew = {
   nameNewWallet: string
 }
 
+const env = "testnet";
+const appMetadata = {
+    name: "Example dApp",
+    description: "An example HashConnect dApp",
+    icons: ["https://assets-global.website-files.com/61ce2e4bcaa2660da2bb419e/61cf5cc71c9324950d7e071d_logo-colour-white.svg"],
+    url: "test.com"
+};
+const projectId = "bfa190dbe93fcf30377b932b31129d05";
+
 const useAuth = () => {
   const [newUser, setNewUser] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const hashConnectRef = useRef<HashConnect | null>(null);
+  const [isReady, setIsReady] = useState(false);
+
+  const hashConnect = hashConnectRef.current
 
   const { 
     register, 
@@ -122,6 +138,54 @@ const useAuth = () => {
     }
   }
 
+  useEffect(() => {
+    const init = async () => {
+      if (typeof window === "undefined") return;
+
+      const { HashConnect } = await import("hashconnect");
+      const hashConnect = new HashConnect(
+        LedgerId.fromString(env),
+        projectId,
+        appMetadata,
+        true
+      );
+
+      await hashConnect.init();
+      hashConnectRef.current = hashConnect;
+      setIsReady(true);
+    };
+
+    init();
+  }, []);
+
+  const handleConnect = () => {
+    if (isReady && hashConnect) {
+      hashConnect.openPairingModal();
+    }
+  };
+
+  const handleDisconnect = () => {
+    if (isReady && hashConnect) {
+      hashConnect.disconnect();
+    }
+  };
+
+  console.log('111, isReady', isReady);
+  console.log('111, hashConnect', hashConnect);
+  
+
+  useEffect(() => {
+    if (!isReady || !hashConnect) return;
+
+    console.log('isReady', isReady);
+    console.log('hashConnect', hashConnect);
+
+    const accounts = hashConnect.connectedAccountIds;
+    console.log('accounts', accounts);
+    
+    console.log("Conta conectada:", accounts.map((id) => id.toString()));
+  }, [ isReady, hashConnect ]);
+
   return {
     newUser,
     isLoading,
@@ -133,7 +197,11 @@ const useAuth = () => {
     errorsNew,
     onSubmit,
     criateNewUser,
-    criateNewWallet
+    criateNewWallet,
+    hashConnect,
+    isReady,
+    handleConnect,
+    handleDisconnect
   };
 };
 

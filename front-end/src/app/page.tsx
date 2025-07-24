@@ -22,7 +22,10 @@ export default function Home() {
     errorsNew,
     onSubmit,
     criateNewUser,
-    criateNewWallet
+    criateNewWallet,
+    isReady,
+    handleConnect,
+    handleDisconnect
   } = useAuth()
   
   return (
@@ -34,6 +37,7 @@ export default function Home() {
               <TabsList>
                 <TabsTrigger value="login">Tenho uma carteira</TabsTrigger>
                 <TabsTrigger value="cadastro">Criar nova carteira</TabsTrigger>
+                <TabsTrigger value="hashpack">HashPack</TabsTrigger>
               </TabsList>
               <TabsContent value="login">
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -99,6 +103,20 @@ export default function Home() {
 
                   <Button type="submit" className="cursor-pointer">Criar carteira</Button>
                 </form>
+              </TabsContent>
+              <TabsContent value="hashpack">
+                <div className="w-full flex justify-center items-center">
+                  <Button 
+                    className="cursor-pointer"
+                    onClick={handleConnect} 
+                    disabled={!isReady}
+                  >
+                    Login com a HashPack
+                  </Button>
+                  <Button onClick={handleDisconnect}>
+                    Desconectar
+                  </Button>
+                </div>
               </TabsContent>
             </Tabs>
           </CardContent>

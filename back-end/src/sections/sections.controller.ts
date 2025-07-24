@@ -12,6 +12,11 @@ export class SectionsController {
     return this.sectionsService.create(createSectionDto);
   }
 
+  @Post('teste')
+  teste(@Body() payload:any) {
+    return this.sectionsService.teste(payload);
+  }
+
   @Get()
   findAll() {
     return this.sectionsService.findAll();
