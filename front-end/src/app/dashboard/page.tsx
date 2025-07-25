@@ -32,7 +32,8 @@ export default function Dashboard() {
     register,
     handleSubmit,
     errors,
-    logout
+    logout,
+    balanceAccount
   } = useDashboard()
 
   return (
@@ -43,7 +44,7 @@ export default function Dashboard() {
             <CardTitle>Dashboard</CardTitle>
             <div className="w-[100%] flex justify-between">
               <div>
-                User: {name} Conta: {accountId} Chave: {privateKey.length > 10 ? privateKey.slice(0, 10) + "..." : privateKey}
+                Nome: {name} | Conta: {accountId} | Chave: {privateKey.length > 10 ? privateKey.slice(0, 10) + "..." : privateKey} | Saldo: {balanceAccount ?? '...'}
               </div>
               <Button onClick={() => logout()} className="cursor-pointer">
                 Sair <LogOut />  
@@ -69,13 +70,13 @@ export default function Dashboard() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">id</TableHead>
-                  <TableHead>Nome do setor</TableHead>
-                  <TableHead>accountID</TableHead>
-                  <TableHead>privateKey</TableHead>
-                  <TableHead>Criado em</TableHead>
-                  <TableHead>Atualizado em</TableHead>
-                  <TableHead>Ações</TableHead>
+                  <TableHead className="w-[100px] font-bold">id</TableHead>
+                  <TableHead className="font-bold">Nome do setor</TableHead>
+                  <TableHead className="font-bold">accountID</TableHead>
+                  <TableHead className="font-bold">privateKey</TableHead>
+                  <TableHead className="font-bold">Criado em</TableHead>
+                  <TableHead className="font-bold">Atualizado em</TableHead>
+                  <TableHead className="font-bold">Ações</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
