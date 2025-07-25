@@ -6,7 +6,13 @@ const baseURL = api.API_BASE_URL
 
 const fetchAll = async () => {
     try {
-      const response = await axios.get(`${baseURL}/section`);
+      const localSotage = services.localSotageServices.getLocalSotage();
+      
+      const response = await axios.get(`${baseURL}/section`, {
+        params: {
+          userId: localSotage.storedUserId,
+        },
+      });
 
       return response;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,9 +27,14 @@ type CriateSectionParams = {
 const criateSection = async (params: CriateSectionParams) => {
   try {
     const { name } = params
+
+    const localSotage = services.localSotageServices.getLocalSotage()
+
     const response = await axios.post(`${baseURL}/section`, {
         name,
-        userId: Number(services.localSotageServices.getToken().storedUserId)
+        userId: Number(localSotage.storedUserId),
+        accountId: localSotage.storedAccountId,
+        privateKey: localSotage.storedPrivateKey
       });
 
     return response;
