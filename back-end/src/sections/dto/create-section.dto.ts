@@ -16,4 +16,14 @@ export class CreateSectionDto {
     message: "O userId do criador da section é obrigatório!"
   })
   userId: number;
+  
+  @IsNotEmpty({
+    message: "A accountId do criador da section é obrigatório!"
+  })
+  accountId: string;
+
+  @IsNotEmpty({
+    message: "A privateKey do criador da section é obrigatório!"
+  })
+  privateKey: string;
 }

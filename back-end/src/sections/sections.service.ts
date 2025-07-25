@@ -9,7 +9,7 @@ export class SectionsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createSectionDto: CreateSectionDto) {
-    const { name, userId} = createSectionDto
+    const { name, userId, accountId, privateKey} = createSectionDto
 
     const getUserId = await this.prisma.user.findUnique({
       where: {
@@ -23,14 +23,20 @@ export class SectionsService {
       }
     }
 
-    const MY_ACCOUNT_ID = AccountId.fromString(process.env.MY_ACCOUNT_ID_ED25519 ?? '');
-    const MY_PRIVATE_KEY = PrivateKey.fromStringED25519(process.env.MY_PRIVATE_KEY_ED25519 ?? '');
+    if (!accountId && !privateKey) {
+      return {
+        "message": "accountId e privateKey não encontrados" 
+      }
+    }
+
+    const ACCOUNT_ID = AccountId.fromString(accountId);
+    const PRIVATE_KEY = PrivateKey.fromStringED25519(privateKey);
 
     let client = Client.forTestnet();
 
-    client.setOperator(MY_ACCOUNT_ID, MY_PRIVATE_KEY);
+    client.setOperator(ACCOUNT_ID, PRIVATE_KEY);
 
-    const newAccountPrivateKey = PrivateKey. generateED25519();
+    const newAccountPrivateKey = PrivateKey.generateED25519();
     const newAccountPublicKey = newAccountPrivateKey.publicKey;
 
     const newAccount = await new AccountCreateTransaction()
@@ -59,8 +65,12 @@ export class SectionsService {
     })
   }
 
-  async findAll() {
-    const allSections = await this.prisma.section.findMany()
+  async findAll(userId: string) {
+    const allSections = await this.prisma.section.findMany({
+      where: {
+        userId: Number(userId)
+      },
+    });
 
     return allSections;
   }
