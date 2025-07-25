@@ -41,7 +41,7 @@ const useAuth = () => {
         setNewUser(true)
       } else if (response.data.newUser === false) {
         toast.success("Login bem-sucedido!")
-        services.localSotageServices.saveToken(
+        services.localSotageServices.saveLocalSotage(
           data.accountId, 
           data.privateKey, 
           response.data.userId, 
@@ -73,7 +73,7 @@ const useAuth = () => {
 
       if (response.status === 201) {
         toast.success("Nova conta criada com sucesso!")
-        services.localSotageServices.saveToken(
+        services.localSotageServices.saveLocalSotage(
           accountId, 
           privateKey, 
           response.data.id, 
@@ -104,7 +104,7 @@ const useAuth = () => {
 
       if (response.status === 201) {
         toast.success("Nova carteira criada com sucesso!")
-        services.localSotageServices.saveToken(
+        services.localSotageServices.saveLocalSotage(
           response.data.account, 
           response.data.privateKey, 
           response.data.userId, 
